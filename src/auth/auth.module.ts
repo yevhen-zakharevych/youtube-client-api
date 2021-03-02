@@ -6,9 +6,9 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { User, UserSchema } from './schemas/user.schema';
 import { JwtStrategy } from './jwt.strategy';
-import * as config from 'config';
+// import * as config from 'config';
 
-const jwtConfig = config.get('jwt');
+// const jwtConfig = config.get('jwt');
 
 @Module({
   imports: [
@@ -16,9 +16,9 @@ const jwtConfig = config.get('jwt');
       defaultStrategy: 'jwt',
     }),
     JwtModule.register({
-      secret: process.env.JWT_SECRET || jwtConfig.secret,
+      secret: process.env.JWT_SECRET, // || jwtConfig.secret,
       signOptions: {
-        expiresIn: process.env.EXPIRES_IN || jwtConfig.expiresIn,
+        expiresIn: process.env.EXPIRES_IN, // || jwtConfig.expiresIn,
       },
     }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
