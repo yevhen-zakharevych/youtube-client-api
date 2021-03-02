@@ -4,6 +4,7 @@
 
 # local config
 .env
+config
 
 # Logs
 logs
