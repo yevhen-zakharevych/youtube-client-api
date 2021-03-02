@@ -9,6 +9,7 @@ import { JwtStrategy } from './jwt.strategy';
 import * as config from 'config';
 
 const jwtConfig = config.get('jwt');
+
 @Module({
   imports: [
     PassportModule.register({
