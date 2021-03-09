@@ -18,7 +18,7 @@ import { JwtStrategy } from './jwt.strategy';
     JwtModule.register({
       secret: process.env.JWT_SECRET, // || jwtConfig.secret,
       signOptions: {
-        expiresIn: process.env.EXPIRES_IN, // || jwtConfig.expiresIn,
+        expiresIn: 3600,
       },
     }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
