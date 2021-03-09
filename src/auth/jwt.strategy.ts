@@ -21,10 +21,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET, // || jwtConfig.secret,
     });
-
-    this.logger.debug(
-      `Constuctor process.env.JWT_SECRET ${process.env.JWT_SECRET}`,
-    );
   }
 
   async validate(payload: JwtPayload) {
@@ -32,8 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     const user = await this.userModel.findOne({ username });
 
-    this.logger.debug(` validate username ${username}`);
-    this.logger.debug(` validate user ${JSON.stringify(user)}`);
+    this.logger.debug(`validate user ${JSON.stringify(user)}`);
 
     if (!user) {
       throw new UnauthorizedException();

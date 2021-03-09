@@ -37,7 +37,7 @@ export class AuthService {
     user.salt = await bcrypt.genSalt();
     user.password = await bcrypt.hash(password, user.salt);
 
-    this.logger.debug(`signUp user ${JSON.stringify(user)}`);
+    this.logger.debug(`signUp user: ${JSON.stringify(user)}`);
 
     await user.save();
   }
@@ -47,16 +47,12 @@ export class AuthService {
   ): Promise<{ accessToken }> {
     const username = await this.validateUserPassword(authCredentialsDto);
 
-    this.logger.debug(`signIn username ${username}`);
-
     if (!username) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     const payload: JwtPayload = { username };
     const accessToken = await this.jwtService.sign(payload);
-
-    this.logger.debug(`signIn payload ${JSON.stringify(payload)}`);
 
     return { accessToken };
   }
@@ -71,6 +67,8 @@ export class AuthService {
       user &&
       (await this.validatePassword(password, user.salt, user.password))
     ) {
+      this.logger.debug(`signIn user: ${JSON.stringify(user)}`);
+
       return user.username;
     } else {
       return null;
@@ -83,10 +81,6 @@ export class AuthService {
     userPassword: string,
   ): Promise<boolean> {
     const hash = await bcrypt.hash(password, salt);
-
-    this.logger.debug(`validatePassword password ${password}`);
-    this.logger.debug(`validatePassword salt ${salt}`);
-    this.logger.debug(`validatePassword userPassword ${userPassword}`);
 
     return hash === userPassword;
   }
